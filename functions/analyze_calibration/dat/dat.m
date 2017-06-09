@@ -31,6 +31,7 @@ classdef dat
     %         datout = resettime(obj);
     %         datout = dattimeind(obj,t) % returns data point at time t
     %         datout = deriv(obj);
+	%         cout = colorspec(cin) % helper fun
     %         t = dattime(obj, seg)
     %         h = plot(obj, varargin)
     %               datfft
@@ -957,6 +958,21 @@ classdef dat
             datout = mrdivide(obj,a);
         end
         
+		
+		% return the actual RGB triplet for colorspec string
+function RGB = colorspec(C)
+
+if isnumeric(C)
+    RGB = C;
+elseif iscell(C)
+    for i = 1:length(C)
+	c = C{i};
+	RGB(i,:) = rem(floor((strfind('kbgcrmyw', c) - 1) * [0.25 0.5 1]), 2);
+    end
+else
+    RGB = rem(floor((strfind('kbgcrmyw', C) - 1) * [0.25 0.5 1]), 2);
+end
+	end
         
     end % METHODS
 end % CLASSDEF DAT
